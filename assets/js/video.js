@@ -7,7 +7,24 @@ function videoPopup() {
         mainClass: 'mfp-fade',
         removalDelay: 160,
         preloader: false,
-        fixedContentPos: true
+        fixedContentPos: true,
+        iframe: {
+            patterns: {
+                youtube: {
+                    index: 'youtube.com/',
+                    id: 'v=',
+                    src: 'https://www.youtube.com/embed/%id%?autoplay=1'
+                },
+                youtu_be: {
+                    index: 'youtu.be/',
+                    id: function(url) {
+                        var match = url.match(/youtu\.be\/([^?&]+)/);
+                        return match ? match[1] : '';
+                    },
+                    src: 'https://www.youtube.com/embed/%id%?autoplay=1'
+                }
+            }
+        }
     });
 }
 /*! Magnific Popup - v1.1.0 - 2016-02-20

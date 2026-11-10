@@ -240,4 +240,263 @@
 	  this.reset();
 	});
 
+	// Hero Typing Skill Animation
+	(function initTyping() {
+	  var el = document.getElementById('typed-skill');
+	  if (!el) return;
+	  var words = [
+	    'Web Development',
+	    'C, C++ & Python',
+	    'MS-Office & Tally GST',
+	    'Photoshop & CorelDRAW',
+	    'DCA & PGDCA Diploma'
+	  ];
+	  var wordIndex = 0;
+	  var charIndex = words[0].length;
+	  var isDeleting = true;
+
+	  function tick() {
+	    var currentWord = words[wordIndex];
+	    if (isDeleting) {
+	      charIndex--;
+	      el.textContent = currentWord.substring(0, charIndex);
+	    } else {
+	      charIndex++;
+	      el.textContent = currentWord.substring(0, charIndex);
+	    }
+
+	    var delay = isDeleting ? 45 : 85;
+	    if (!isDeleting && charIndex === currentWord.length) {
+	      isDeleting = true;
+	      delay = 1800;
+	    } else if (isDeleting && charIndex === 0) {
+	      isDeleting = false;
+	      wordIndex = (wordIndex + 1) % words.length;
+	      delay = 350;
+	    }
+	    setTimeout(tick, delay);
+	  }
+
+	  setTimeout(tick, 1800);
+	})();
+
+	// Hero Stats Count-Up Animation
+	(function initCounters() {
+	  $('.stat-number').each(function() {
+	    var $this = $(this);
+	    var target = parseInt($this.data('count'), 10) || 0;
+	    var suffix = $this.data('suffix') || '';
+	    $({ countNum: 0 }).animate({ countNum: target }, {
+	      duration: 1600,
+	      easing: 'swing',
+	      step: function() {
+	        $this.text(Math.floor(this.countNum) + suffix);
+	      },
+	      complete: function() {
+	        $this.text(target + suffix);
+	      }
+	    });
+	  });
+	})();
+
+	// Scroll Reveal Animations
+	(function initScrollReveal() {
+	  var targets = document.querySelectorAll(
+	    '.section-heading, #tabs, .service-card, .video-item, section.contact form, section.contact #map, .footer-main > div'
+	  );
+	  if (!targets.length) return;
+
+	  targets.forEach(function(el, idx) {
+	    el.classList.add('reveal-item');
+	    if (el.classList.contains('service-card') || el.parentElement.classList.contains('footer-main')) {
+	      el.style.transitionDelay = ((idx % 4) * 0.1) + 's';
+	    }
+	  });
+
+	  if ('IntersectionObserver' in window) {
+	    var observer = new IntersectionObserver(function(entries, obs) {
+	      entries.forEach(function(entry) {
+	        if (entry.isIntersecting) {
+	          entry.target.classList.add('is-visible');
+	          obs.unobserve(entry.target);
+	        }
+	      });
+	    }, { threshold: 0.12 });
+
+	    targets.forEach(function(el) { observer.observe(el); });
+	  } else {
+	    targets.forEach(function(el) { el.classList.add('is-visible'); });
+	  }
+	})();
+
+	// Interactive Course Syllabus Modal
+	var courseCatalog = {
+	  'MS - OFFICE': {
+	    duration: '2 Months',
+	    level: 'Beginner to Pro',
+	    syllabus: [
+	      'MS Word Formatting & Mail Merge',
+	      'MS Excel Formulas, VLOOKUP & Pivot Tables',
+	      'MS PowerPoint Animated Presentations',
+	      'MS Outlook & Official Documentation'
+	    ]
+	  },
+	  'PHOTOSHOP': {
+	    duration: '2 Months',
+	    level: 'Creative Track',
+	    syllabus: [
+	      'Layers, Masking & Selection Tools',
+	      'Portrait Retouching & Color Correction',
+	      'Social Media Posters & Thumbnails',
+	      'Background Removal & Banner Design'
+	    ]
+	  },
+	  'TALLY PRIME + GST': {
+	    duration: '2.5 Months',
+	    level: 'Accounting Track',
+	    syllabus: [
+	      'Company Creation & Ledger Management',
+	      'Day-to-Day Voucher & Inventory Entries',
+	      'GST Billing, E-Way Bill & Tax Returns',
+	      'Payroll, TDS & Balance Sheet Reports'
+	    ]
+	  },
+	  'BASIC OF COMPUTER': {
+	    duration: '1.5 Months',
+	    level: 'Foundation',
+	    syllabus: [
+	      'Computer Hardware & OS Fundamentals',
+	      'File Management & System Settings',
+	      'Internet Browsing, Email & Online Forms',
+	      'English & Regional Typing Practice'
+	    ]
+	  },
+	  'C & C++ PROGRAMMING': {
+	    duration: '3 Months',
+	    level: 'Core Coding',
+	    syllabus: [
+	      'Variables, Loops, Functions & Arrays',
+	      'Pointers, Structures & File Handling',
+	      'Object-Oriented Programming (Classes)',
+	      'Inheritance, Polymorphism & Logic Building'
+	    ]
+	  },
+	  'WEB DEVELOPMENT': {
+	    duration: '3 Months',
+	    level: 'Frontend Coding',
+	    syllabus: [
+	      'Semantic HTML5 Page Architecture',
+	      'Modern CSS3, Flexbox & Grid Layouts',
+	      'Bootstrap Responsive Frameworks',
+	      'Interactive JavaScript & DOM Projects'
+	    ]
+	  },
+	  'PYTHON PROGRAMMING': {
+	    duration: '3 Months',
+	    level: 'Modern Coding',
+	    syllabus: [
+	      'Python Syntax, Loops & Functions',
+	      'Lists, Tuples, Dictionaries & Sets',
+	      'File I/O, Modules & Error Handling',
+	      'OOP & Real Automation Mini-Projects'
+	    ]
+	  },
+	  'JAVA PROGRAMMING': {
+	    duration: '3 Months',
+	    level: 'Enterprise Coding',
+	    syllabus: [
+	      'Java Syntax, JVM & Data Types',
+	      'Object-Oriented Principles & Interfaces',
+	      'Exception Handling & Collections Framework',
+	      'GUI / Console Application Projects'
+	    ]
+	  },
+	  'DCA (DIPLOMA)': {
+	    duration: '6 Months',
+	    level: 'Certified Diploma',
+	    syllabus: [
+	      'Computer Fundamentals & Windows OS',
+	      'Complete MS-Office (Word, Excel, PPT)',
+	      'Internet Applications & Digital Security',
+	      'DTP Basics & Practical Project Submission'
+	    ]
+	  },
+	  'PGDCA': {
+	    duration: '1 Year',
+	    level: 'Post Graduate Diploma',
+	    syllabus: [
+	      'C & C++ Programming Foundations',
+	      'Database Management Systems (SQL)',
+	      'Web Design (HTML, CSS, JavaScript)',
+	      'Software Engineering & Major Live Project'
+	    ]
+	  },
+	  'PHP & MYSQL': {
+	    duration: '3 Months',
+	    level: 'Backend Coding',
+	    syllabus: [
+	      'PHP Server Scripting & Form Handling',
+	      'MySQL Database Design & SQL Queries',
+	      'User Login, Sessions & Authentication',
+	      'Complete Dynamic CRUD Web Application'
+	    ]
+	  },
+	  'CORELDRAW & DTP': {
+	    duration: '2 Months',
+	    level: 'Print & Design',
+	    syllabus: [
+	      'Vector Logo & Illustration Design',
+	      'Visiting Cards, Brochures & Wedding Cards',
+	      'Flex Banners & Commercial Print Layouts',
+	      'PageMaker Typography & Pre-Press Export'
+	    ]
+	  }
+	};
+
+	$(document).on('click', '.course-card', function(e) {
+	  if ($(e.target).closest('a').length) {
+	    return;
+	  }
+	  var $card = $(this);
+	  var title = $card.find('.course-title-bar h4').text().trim();
+	  var tag = $card.find('.course-tag').text().trim() || 'Computer Course';
+	  var desc = $card.find('.down-content p').text().trim();
+	  var info = courseCatalog[title] || {
+	    duration: '2–3 Months',
+	    level: 'All Levels',
+	    syllabus: ['Practical Lab Training', 'Live Guided Exercises', 'Project Assignment', 'Verified Certification']
+	  };
+
+	  $('#courseModalBadge').text(tag + ' Track');
+	  $('#courseModalTitle').text(title);
+	  $('#courseModalDesc').text(desc);
+	  $('#courseModalMeta').html(
+	    '<span><i class="fa fa-clock-o"></i> Duration: ' + info.duration + '</span>' +
+	    '<span><i class="fa fa-signal"></i> Level: ' + info.level + '</span>' +
+	    '<span><i class="fa fa-laptop"></i> 100% Practical Lab</span>'
+	  );
+
+	  var listHtml = info.syllabus.map(function(topic) {
+	    return '<li><i class="fa fa-check-circle"></i><span>' + topic + '</span></li>';
+	  }).join('');
+	  $('#courseModalSyllabus').html(listHtml);
+
+	  $('#courseModalApplyBtn').data('selected-course', title);
+	  $('#courseModal').modal('show');
+	});
+
+	$('#courseModalApplyBtn').on('click', function(e) {
+	  e.preventDefault();
+	  var courseName = $(this).data('selected-course') || 'a computer course';
+	  $('#courseModal').modal('hide');
+	  setTimeout(function() {
+	    var target = $('.section[data-section="section6"]');
+	    if (target.length) {
+	      var headerHeight = $('.main-header').outerHeight() || 80;
+	      $('html, body').animate({ scrollTop: target.offset().top - headerHeight + 2 }, 800);
+	      $('#contact-message').val('Hello, I would like to apply for admission in ' + courseName + '.').focus();
+	    }
+	  }, 250);
+	});
+
 })(jQuery);
